@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:if="${title}" th:text="${title}"></title>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" id="global" href="/css/global.css">
+  <style type="text/css">
+    .box{
+      position: absolute;
+      width: 1300px;
+      margin: auto;
+      left: 0;
+      right: 0;
+
+    }
+    .left{
+      position: absolute;
+      min-width: 350px;
+      width: auto;
+      margin: auto;
+      left: 50px;
+      top: 50px;
+
+    }
+    .num{
+      position: relative;
+      width: 300px;
+      text-align: center;
+    }
+
+    .imgct{
+      min-height: 30px;
+      width: auto;
+      height: auto;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+    .left img{
+      max-width: 800px;
+      max-height: 800px;
+      width: auto;
+      height: auto;
+    }
+    .info{
+      position: absolute;
+      width: 290px;
+      margin: auto;
+      left: 30px;
+      top: 30px;
+
+    }
+    .info img{
+      max-width: 120px;
+    }
+    .info a{
+      text-decoration:none;
+      color: #f3f5f5;
+    }
+    .control{
+      display: flex;
+      justify-content: center;
+    }
+    .textinfo{
+      position: absolute;
+      margin: auto;
+      top: 10px;
+      left: 130px;
+    }
+    .right{
+      position: absolute;
+      border-radius: 30px;
+      overflow: hidden;
+      min-width: 350px;
+      min-height: 450px;
+      background-color: #747fb6;
+      width: auto;
+      margin-top: 50px;
+      right: 50px;
+    }
+  </style>
+</head>
+<body>
+<div class="title">
+  <ul>
+    <li><a href="/rank/monthly">月榜</a></li>
+    <li><a href="/rank/weekly">周榜</a></li>
+    <li><a href="/rank/daily">日榜</a></li>
+    <li><a href="/rank/daily_ai">AI榜</a></li>
+    <li><a href="/rank/male">男榜</a></li>
+    <li><a href="/rank/female">女榜</a></li>
+    <li><a href="/rank/weekly_r18">周榜R</a></li>
+    <li><a href="/rank/daily_r18">日榜R</a></li>
+    <li><a href="/rank/daily_r18_ai">AI榜R</a></li>
+    <li th:if="${login}"><a href="/update">更新</a></li>
+    <li th:if="${login}"><a href="/bookmark">收藏</a></li>
+    <li th:if="${login}"><a href="/follow">关注</a></li>
+    <li th:if="${login}"><a href="/recommend">推荐</a></li>
+    <li th:unless="${login}"><a href="/login">登录</a></li>
+    <li th:if="${login}"><a href="/logout">登出</a></li>
+    <li>
+      <form action="#" id="href" onsubmit="return tiao()">
+        <input type="text" placeholder="输入id" id="search" value="" pattern=[0-9]*>
+        <button type="submit" value="确定" class="search1">确定</button>
+      </form>
+    </li>
+    <li  style="float:right">
+      <div th:if="${name}" style="display: flex;justify-content: center">
+        <img class="proimg" th:src="|/img/${imgurl}|" style="width: 50px;height: 50px">
+        <span th:text="${name}"></span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="box">
+  <div class="left">
+    <div class="imgct">
+    <img id="img" th:src="|/img/${picinfo.picurl}0${picinfo.extend}|">
+    </div>
+    <div th:if="${picinfo.num} gt 1" class="control">
+        <div class="num"><p th:text="|1/${picinfo.num}|"></p></div>
+        <div id="next" onclick="rjump()"><p>下一张</p></div>
+    </div>
+
+
+  </div>
+  <div class="right">
+    <div class="info">
+      <a th:href="|/id/${picinfo.uid}|" target="_blank">
+      <img th:src="|/img/${picinfo.imgurl}|" alt="">
+      <div class="textinfo">
+    <span th:text="${picinfo.username}"></span>
+      </div>
+      </a>
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+  cur = 1
+  var src = [[${picinfo.picurl}]]
+  var extend = [[${picinfo.extend}]]
+  var max = [[${picinfo.num}]]
+  function ljump(){
+    cur = cur-1
+    $("#img").attr("src","/img/"+src+(cur-1)+extend)
+    $(".num")[0].innerHTML = '<p>'+cur+"/"+max+'</p>'
+    if(cur==max-1){
+      $(".control").append('<div id="next" onclick="rjump()"><p>下一张</p></div>')
+    }
+    if(cur == 1){
+      $("#prev").remove()
+    }
+  }
+  function rjump(){
+    cur = cur+1
+    $("#img").attr("src","/img/"+src+(cur-1)+extend)
+    $(".num")[0].innerHTML = '<p>'+cur+"/"+max+'</p>'
+    if(cur==2){
+      $(".control").prepend('<div id="prev" onclick="ljump()"><p>上一张</p></div>')
+    }
+    if(cur == max){
+      $("#next").remove()
+    }
+  }
+  console.log([[${picinfo}]])
+</script>
+</body>
+</html>

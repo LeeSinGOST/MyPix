@@ -1,0 +1,97 @@
+.username p{
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 0px;
+}
+.discript p{
+    margin-top: 0;
+}
+.profile img{
+    max-width: 100%;
+    width: auto;
+    height: auto;
+}
+.img img{
+    max-width: 100%;
+    width: auto;
+    height: auto;
+}
+.profile{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    left: 5px;
+    top: 5px;
+}
+.username{
+    position: absolute;
+    width: 320px;
+    height: 40px;
+    left: 90px;
+    top: 5px;
+}
+.discript{
+    position: absolute;
+    width: 400px;
+    left: 90px;
+    top: 45px;
+}
+.header{
+    position: absolute;
+    overflow: hidden;
+    width: 500px;
+    height: 113px;
+    left: 0;
+    right: 0;
+    top:20px;
+    margin: auto;
+
+}
+.bigbox{
+    position: relative;
+    justify-content:center;
+    flex-wrap:wrap;
+    display: flex;
+}
+.item:hover {
+    box-shadow: inset -6px -6px 10px rgba(255, 255, 255, 0.5),
+    inset 6px 6px 20px rgba(0, 0, 0, 0.05);
+}
+.follow{
+    position: absolute;
+    z-index: 3;
+    width: 80px;
+    height: 40px;
+    margin: auto;
+    right: 0;
+    top: 0;
+}
+.folbt{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 5;
+    width: 70px;
+    height: 40px;
+    border: 0;
+    color: azure;
+    font-size: 18px;
+    cursor: pointer;
+    background: #dc3a6b;
+}
+.folbt1{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 5;
+    width: 70px;
+    height: 40px;
+    border: 0;
+    color: #dc3a6b;
+    font-size: 18px;
+    cursor: pointer;
+    background: #99b2b2;
+}

@@ -1,0 +1,73 @@
+package com.order1.Controller.Interceptor;
+
+import com.pixiv.controller.Utils.Utils;
+import com.pixiv.user.Others;
+import com.pixiv.user.Users;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import com.pixiv.controller.Interceptor.CheckCookie.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
+
+
+/**
+ * @author leesin
+ */
+@Component
+public class LoginIntercepter implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        HttpSession session = request.getSession();
+        Object userInfo = session.getAttribute("userInfo");
+        if("GET".equals(request.getMethod())) {
+            Object col = session.getAttribute("col");
+            System.out.println("col = " + col);
+            if (col == null) {
+                System.out.println("set col");
+                session.setAttribute("col", Others.getDefcol());
+            } else {
+//                String colc = CheckCookie.checkcookie1(request.getCookies());
+//                if (colc == null) {
+//                    Cookie cookie3 = new Cookie("col", String.valueOf(Others.getDefcol()));
+//                    cookie3.setMaxAge(60 * 60 * 24 * Others.getMaxday());
+//                    cookie3.setPath(request.getContextPath());
+//                    response.addCookie(cookie3);
+//                    session.setAttribute("col", String.valueOf(Others.getDefcol()));
+//                } else {
+                    session.setAttribute("col", col);
+//                }
+            }
+        }
+            if (userInfo == null) {
+                String username = CheckCookie.checkcookie(request.getCookies());
+                if (username != null) {
+                    String cookie = Users.getUsers().get(username).getCookie();
+                    session.setAttribute("userInfo", username);
+                    request.setAttribute("cookie22", cookie);
+                    return true;
+                }
+                response.sendRedirect("/login");
+                return false;
+            } else {
+                String cookie = null;
+                if (Users.getUsers().containsKey(userInfo)) {
+//                cookie = "yuid_b=EXVJUSM; first_visit_datetime_pc=2022-11-06+00%3A10%3A36; p_ab_id=5; p_ab_id_2=9; p_ab_d_id=2001829548; _fbp=fb.1.1667661037610.365289046; privacy_policy_notification=0; a_type=0; b_type=1; device_token=6113c2cecfe54c52174ff0d26cd047af; _im_vid=01GNTWT8NSYS28Z077WH30MJFK; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; login_ever=yes; _gcl_au=1.1.1173950000.1672718739; adr_id=OhyppC52eRAci1lLjUQ8sniyMfhgEU6PsKvlX6fxnXPq0nLe; _gid=GA1.2.1314310702.1672914952; c_type=27; __utmv=235335808.|2=login%20ever=yes=1^3=plan=normal=1^5=gender=male=1^6=user_id=73518020=1^9=p_ab_id=5=1^10=p_ab_id_2=9=1^11=lang=zh=1; __utmc=235335808; __cf_bm=DLb.Ff_8aVBlVlLwYkbylPp9pOqyle.1uFYM2Fv9NSo-1672973140-0-AdUMtPIXrh4vsFkzBN5j/WXsJpynY1SpnBPKXB9UcNM70KTSKHyc05j2nrn5PQ5tN+m8DrJezbWnTkiCxTac5f9FwOC9XJOhEvQOnZeXegiB36EDCgskux1s4YiSmAXlOchagFMceMX6XXl50rY+UBo/+I6nZBf2gOtWCHGIKOKcAn0WzbpxzABo4FsXErtjwHyBXgODKLL1DUxydC06E+c=; _ga_MZ1NL4PHH0=GS1.1.1672973140.6.1.1672973603.0.0.0; PHPSESSID=73518020_OBwT2rcEmAXUfnOyvas0plp5D8WGQmDa; privacy_policy_agreement=0; __utma=235335808.2002852190.1667661036.1672968572.1672973611.7; __utmz=235335808.1672973611.7.2.utmcsr=accounts.google.com|utmccn=(referral)|utmcmd=referral|utmcct=/; __utmt=1; _ga=GA1.2.2002852190.1667661036; tag_view_ranking=RTJMXD26Ak~jH0uD88V6F~OfvEJkxqVs~Lt-oEicbBr~0xsDLqCEW6~iFcW6hPGPU~EGefOqA6KB~BiQisSyES_~gkL6GKqYU6~ML8s4PH95U~aKhT3n4RHZ~NsbQEogeyL~O1aut1etjj~_EOd7bsGyl~OUF2gvwPef~dg_40nEhSE~-O-NE-glI0~q303ip6Ui5~qIDsnltE2o~GlEsKjRIS3~HffPWSkEm-~tws8Fo03IJ~eVxus64GZU~-98s6o2-Rp~JmbJ_pZA-4~OqKJfTXHwu~0cVg6zK-_N~1n-RsNEFpK~ZldurqefWy~W6bX8FRdBM~nUChZeZyGT~7WfWkHyQ76~ZjqkGa4aKP~PjWokVXSAa; __utmb=235335808.3.10.1672973611; _ga_75BBYNYN9J=GS1.1.1672973611.10.1.1672973728.0.0.0; cto_bundle=GP-oMl9VZExHWFBwbGN3SWFnaHJwWlRJWU92b21EZ0dPZE1pM0VIRG1kVEtDc1ZOZHRQamJMNUx0Y2xjUVJGZGV0a3RSM005dzMwSEQxRTVJWjI3b1BZaWl5cmolMkJOd3Z4WlFTMnJkRG45YzZaZ1Z4VEFiT0pXb1YxS0tZWTVWRHRTTk02aFVGaEdMaXowVG0xYWJBaHM2bmp0dyUzRCUzRA";
+                    cookie = Users.getUsers().get(userInfo).getCookie();
+                    request.setAttribute("cookie22", cookie);
+                } else {
+                    System.out.println("怎么会事？");
+                }
+
+                return true;
+            }
+        }
+    }
+

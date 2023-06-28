@@ -1,0 +1,58 @@
+
+.img{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 241px;
+    height: 241px;
+    /*width: 161px;*/
+    /*height: 161px;*/
+}
+.footer{
+    position: absolute;
+    overflow: hidden;
+    width: 500px;
+    height: 500px;
+    /*height: 170px;*/
+    margin: auto;
+    left: 0;
+    right: 0;
+    top:140px;
+    display: flex;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.item{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 550px;
+    height: 660px;
+    /*height: 330px;*/
+    background: #b6d1e3;
+    border-radius: 40px;
+    box-shadow: -6px -6px 20px rgba(255, 255, 255, 1),
+    6px 6px 20px rgba(0, 0, 0, .1);
+}
+
+.flame{
+    position: relative;
+    width: 580px;
+    height: 700px;
+    /*height: 380px;*/
+}
+
+.foote{
+    position: relative;
+    /*width: 165px;*/
+    /*height: 165px;*/
+    width: 245px;
+    height: 245px;
+}
+

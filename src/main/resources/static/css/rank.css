@@ -1,0 +1,25 @@
+.item .bottom {
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+.bottom a{
+    text-decoration:none;
+    color: #f3f5f5;
+}
+.bottom p{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+.item:hover .bottom{
+    z-index: 6;
+}
+.item:hover .imgct{
+    z-index: 1;
+    /*opacity:0.8;*/
+    /*filter: alpha(opacity=80);*/
+}

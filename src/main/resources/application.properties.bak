@@ -1,0 +1,11 @@
+# 应用名称
+spring.application.name=pixiv
+# 应用服务 WEB 访问端口
+server.port=8080
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.cache=false
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.servlet.content-type=text/html
+spring.mvc.static-path-pattern=/**
+spring.web.resources.static-locations=classpath:static/

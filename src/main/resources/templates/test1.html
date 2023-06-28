@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>轮播图</title>
+  <meta charset="utf-8">
+  <meta name="referrer" content="no-referrer">
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <style type="text/css" >
+
+    body{
+      -webkit-user-select: none;
+      /* 兼容IE 10+ 和 Edge */
+      -ms-user-select: none;
+      /*
+          ⏹禁止用户选中的标准语法
+      */
+      user-select: none;
+      background: #a5bfd3;
+      margin: 0;
+      padding: 0px;
+    }
+    img{
+      -webkit-user-drag: none;
+    }
+    #carousel1{
+      position: fixed;
+      background-color: #3b4465;
+      width: 100%;
+      height: 100%;
+      z-index: 666;
+    }
+    .imgct1{
+      position: absolute;
+      margin: auto;
+      width: 100%;
+      height: calc(100% - 200px);
+      border: 1px solid teal;
+      top: 0;
+      right: 0;
+      left: 0;
+    }
+    .view1{
+      position: absolute;
+      width: 100%;
+      margin: auto;
+      height: 200px;
+
+      bottom: 10px;
+      overflow: hidden;
+    }
+    ul{
+      left: calc(50% - 100px);
+      display: flex;
+      height: 200px;
+      padding: 0;
+      /*flex-direction: row;*/
+      /*justify-content: center;*/
+      position: absolute;
+    }
+    li img{
+      width: 100%;
+      height: 100%;
+    }
+    li{
+      padding: 0;
+      width: 200px;
+      height: 200px;
+      list-style: none;
+      border:  1px solid darkcyan;
+    }
+    .imgbox{
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    #leftArrow,
+    #rightArrow{
+      position: absolute;
+      left: 5px;
+      top: 43%;
+      width: 25px;
+      height: 30px;
+      background-color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.7;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    #rightArrow{
+      left: auto;
+      right: 5px;
+    }
+    #active{
+      border: 2px solid rosybrown;
+    }
+  </style>
+</head>
+<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_1582902_u0zm91pv15i.css">
+<body>
+<!-- 轮播图容器 -->
+<div id="carousel1">
+  <div class="imgct1">
+    <div class="imgbox">
+    </div>
+  </div>
+  <div class="view1">
+    <ul class="view2">
+    </ul>
+  </div>
+  <div id="leftArrow" class="iconfont icon-arrow-lift"></div> <!-- 左箭头切换按钮 -->
+  <div id="rightArrow" class="iconfont icon-arrow-right"></div> <!-- 右箭头切换按钮 -->
+  <div id="sliderBtn"></div> <!-- 切换按钮组 -->
+</div>
+
+</body>
+<script type="text/javascript" th:inline="javascript">
+  console.log([[${picinfo}]])
+  src = "/pid/"+[[${pid}]]
+  num = [[${picinfo.num}]]
+  var curimg = 0
+  console.log("height:"+$(window).height())
+  console.log("width:"+$(window).width())
+  var imgArr = []; // 图片数组
+  var carousel = document.getElementById("carousel"); //获取容器对象的引用
+  // carousel.style.height = config.height// 将轮播容器高度设定
+  // carousel.style.height = $(window).height()// 将轮播容器高度设定
+  function Toimg(i){
+    console.log("ost: "+slideContainer.offsetLeft)
+    var orignImg = new Image();
+    let src1 = src + '?num='+i
+    console.log("swich to" + src1)
+    var windowWidth = $(window).width();
+    var windowHeight = $(".imgct1").height();
+    orignImg.onload = function (){
+    with ($(".imgbox")){
+      var currImgWidth = orignImg.width;
+      var currImgHeight = orignImg.height;
+      let tmp = currImgWidth/windowWidth
+      let tmp1 = currImgHeight/windowHeight
+      if(currImgWidth < windowWidth && currImgHeight < windowHeight){
+        console.log("1")
+        css('width',currImgWidth)
+        css('height',currImgHeight)
+        html('<img border=0 src=' + src1 + '>');
+
+      }else if(currImgWidth < windowWidth && currImgHeight > windowHeight){
+        console.log("2")
+        css('width',currImgWidth/tmp1)
+        css('height',windowHeight)
+        html('<img border=0 src=' + src1 + ' height=' + windowHeight + ';>');
+      }else if(currImgWidth > windowWidth && currImgHeight < windowHeight){
+        console.log("3")
+        css('width',windowWidth)
+        css('height',currImgHeight/tmp)
+        html('<img border=0 src=' + src1 + ' width=' + windowWidth + ';>');
+      }else if(currImgWidth > windowWidth && currImgHeight > windowHeight){
+
+        if(tmp>tmp1) {
+          console.log("4")
+          css('width',currImgWidth/tmp)
+          css('height',currImgHeight/tmp)
+          html('<img border=0 src=' + src1 + ' width=' + windowWidth + ';>');
+        }else {
+          console.log("5")
+          css('width',currImgWidth/tmp1)
+          css('height',currImgHeight/tmp1)
+          html('<img border=0 src=' + src1 + ' height=' + windowHeight + ';>');
+        }
+      }
+    }
+  }
+    orignImg.src = src1;
+  }
+  function lfbtn(){
+    if(curimg<=0){
+      return
+    }else {
+      Toimg(--curimg)
+      animate(slideContainer, ofset+200);
+      ofset+=200
+   }
+  }
+  function rtbtn(){
+    if(curimg>=num-1){
+      return
+    }else {
+      Toimg(++curimg)
+      animate(slideContainer, ofset-200);
+      ofset-=200
+    }
+  }
+  function animate(ele, target) {
+    //要用定时器，先清除定时器
+    //一个盒子只能有一个定时器，这样的话，不会和其他盒子出现定时器冲突
+    //我们可以把定时器本身，当成为盒子的一个属性
+    clearInterval(ele.timer);
+    //我们要求盒子既能向前又能向后，那么我们的步长就得有正有负
+    //目标值如果大于当前值取正，目标值如果小于当前值取负
+    var speed = target > ele.offsetLeft ? 10 : -10;  //speed指的是步长
+    var totalval = Math.abs((target - ele.offsetLeft)/200)
+    ele.timer = setInterval(function () {
+      //在执行之前就获取当前值和目标值之差
+      var val = target - ele.offsetLeft;
+      //移动的过程中，如果目标值和当前值之差如果小于步长，那么就不能在前进了
+      //因为步长有正有负，所有转换成绝对值来比较
+      if (Math.abs(val) < Math.abs(speed)) {  //如果val小于步长，则直接到达目的地；否则，每次移动一个步长
+        ele.style.left = target + "px";
+        clearInterval(ele.timer);
+      } else {
+        ele.style.left = ele.offsetLeft + speed + "px";
+      }
+    }, 30/totalval)
+  }
+  var slideContainer = document.querySelector(".view1 > ul");
+  var ofset = slideContainer.offsetLeft
+  var key = false;
+  var firstTime = 0;
+  var lastTime = 0;
+  var startx, starty;
+
+  //获得角度
+  function getAngle(angx, angy) {
+    return Math.atan2(angy, angx) * 180 / Math.PI;
+  };
+
+  //根据起点终点返回方向 1向上滑动 2向下滑动 3向左滑动 4向右滑动 0点击事件
+  function getDirection(startx, starty, endx, endy) {
+    var angx = endx - startx;
+    var angy = endy - starty;
+    var result = 0;
+
+    //如果滑动距离太短
+    if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+      return result;
+    }
+
+    var angle = getAngle(angx, angy);
+    if (angle >= -135 && angle <= -45) {
+      result = 1;
+    } else if (angle > 45 && angle < 135) {
+      result = 2;
+    } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+      result = 3;
+    } else if (angle >= -45 && angle <= 45) {
+      result = 4;
+    }
+    return result;
+  }
+  $("#carousel1")[0].addEventListener("touchstart", function(e){
+    startx = e.touches[0].pageX;
+    starty = e.touches[0].pageY;
+  }, false);
+
+  //手指离开屏幕
+  $("#carousel1")[0].addEventListener("touchend", function(e) {
+    var endx, endy;
+    endx = e.changedTouches[0].pageX;
+    endy = e.changedTouches[0].pageY;
+    var direction = getDirection(startx, starty, endx, endy);
+    switch (direction) {
+        // case 0:
+        //     alert("点击！");
+        //     break;
+      case 1:
+        $(this).remove();
+        console.log("remove")
+        break;
+        // case 2:
+        //     alert("向下！");
+        //     break;
+      case 3:
+        rtbtn()
+        break;
+      case 4:
+        lfbtn()
+        break;
+        // default:
+        //     $(this).remove();
+        //     console.log("remove")
+        //     coverLayer(0);
+        //     break;
+    }
+  }, true);
+  $(".imgct1")[0].onmousedown=function(e){
+    var a1=e.screenX;
+    console.log(a1)
+    firstTime = new Date().getTime();
+    event.stopPropagation();
+    $(".imgct1")[0].onmouseup=function (e){
+      var a2=e.screenX;
+      console.log(a2)
+      lastTime = new Date().getTime();
+      if( (lastTime - firstTime) < 120){
+        key = true;
+      }else {
+        if (a1 > a2) {
+          rtbtn()
+
+        }
+        if (a1 < a2) {
+          lfbtn()
+
+        }
+      }
+    }
+  }
+  $(".imgct1").click(function () {
+    if(key) {
+      console.log("remove")
+      event.stopPropagation();
+    }
+  });
+  $("#leftArrow").click(function () {
+      event.stopPropagation();
+    lfbtn()
+  });
+  $("#rightArrow").click(function () {
+      event.stopPropagation();
+    rtbtn()
+
+  });
+  for(let i=0;i<num;i++){
+    let orignImg = new Image();
+    let trueSrc = src+'?num='+i
+    orignImg.onload = function (){
+      console.log("img "+i+" width:"+orignImg.width)
+      imgArr.push(orignImg)
+    }
+    orignImg.onerror = function (){
+      console.log('error:' + orignImg.getAttribute("id") + '  reloading')
+      $('#img'+i)[0].setAttribute("src", trueSrc+'&retry=1');
+    }
+    orignImg.src = trueSrc;
+    $(".view1 ul").append('<li><img id="img'+i+'" src="'+trueSrc+'" alt="'+i+'"></li>')
+    $("#img"+i).click(function (){
+      // while(orignImg.width==0){
+      //
+      //   orignImg = new Image();
+      //   orignImg.src = trueSrc+"#"+new Date().getTime();
+      //   console.log(orignImg.width + '  ' +orignImg.src)
+      // }
+      let target = parseInt($(this).attr("alt"))
+      console.log("width:"+orignImg.width)
+      console.log("src:"+orignImg.src)
+      console.log("target::"+$(window).height()/2)
+      console.log("target num:"+target)
+      ofset = ofset+(curimg - target)*200
+      animate(slideContainer,ofset)
+      // console.log("offset2:"+$(".view2")[0].offsetLeft)
+      curimg = i
+      Toimg(i)
+    })
+  }
+  Toimg(curimg)
+</script>

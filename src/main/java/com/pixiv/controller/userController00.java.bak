@@ -1,0 +1,136 @@
+package com.pixiv.controller;
+
+
+import net.sf.json.JSONObject;
+import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+
+@Controller
+public class userController00 {
+
+    /**
+     * 1.直接把表单的参数写在Controller相应的方法的形参中
+     * @param page
+     * @return
+     **/
+    @RequestMapping("/id/{id}")
+    public Object test(@PathVariable String id, String page, Map<String, Object> map){
+        String uri = "https://www.pixiv.net/ajax/user/"+id+"/profile/all?lang=zh";
+        String html = gethtml(uri);
+        JSONObject json=JSONObject.fromObject(html).getJSONObject("body").getJSONObject("illusts");
+        Iterator it = json.keys();
+        List<String> keyListstr = new ArrayList<String>();
+        while(it.hasNext()) {
+            keyListstr.add(it.next().toString());
+        }
+        int page1=1;
+        int size = keyListstr.size();
+        int max,min;
+        if(page != null){
+          page1 = Integer.parseInt(page);
+        }
+        min = (page1-1)*50;
+        if(min > size){
+            return null;
+        }
+        max = size-min>=50?page1*50:size;
+        keyListstr = keyListstr.subList(min,max);
+        map.put("list",keyListstr);
+        String ids = "";
+        for(String str: keyListstr){
+            ids = ids + "ids[]=" + str + "&";
+        }
+        String newurl =  "https://www.pixiv.net/ajax/user/"+id+"/profile/illusts?"+ids+"work_category=illustManga&is_first_page=0&lang=zh";
+        String html1 = gethtml(newurl);
+
+        JSONObject json1=JSONObject.fromObject(html1).getJSONObject("body").getJSONObject("works");
+        map.put("js1",json1.toString());
+        return "test";
+
+    }
+    @RequestMapping("/pid/{pid}")
+    @ResponseBody
+    public void getimg(HttpServletResponse response, @PathVariable String pid) throws IOException {
+        String url1 = "https://www.pixiv.net/ajax/illust/"+pid+"?lang=zh";
+        String html2 = gethtml(url1);
+        JSONObject json=JSONObject.fromObject(html2).getJSONObject("body");
+        String picurl = json.getJSONObject("urls").getString("original");
+
+        InputStream in = null;
+//        String filePath="https://i.pximg.net/img-original/img/2022/03/21/00/05/31/97059921_p0.jpg";
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1",17890));
+//        filePath="https://img-blog.csdnimg.cn/20201014180756930.png";
+        URL urls = new URL(picurl);
+        URLConnection conn = urls.openConnection(proxy);
+        conn.setConnectTimeout(1000);
+        conn.setReadTimeout(5000);
+
+
+
+        conn.setRequestProperty("Cookie","first_visit_datetime_pc=2022-02-25+14:30:21; p_ab_id=1; p_ab_id_2=7; p_ab_d_id=97184414; yuid_b=GCADQZg; privacy_policy_notification=0; a_type=0; b_type=1; c_type=28; adr_id=EokF4ynu2YkYGLuZTR4LkvZsNNOj7GU9nBAH0nf2ZHlSFdEz; login_ever=yes; _td=6f0d3b59-877a-4bf8-a5b9-3e04abedcc37; PHPSESSID=28332859_JikCjRe6rJc0FL1z1TkThwyvhwL0bqfJ; device_token=67cf36be4d40f620a765eb1202b7b31c; privacy_policy_agreement=0; __cf_bm=mk6FrbobcSbxaRRdUUWs.cNToFWe2l1wnNIBFTosnw4-1670829064-0-AbHwWf/NX4/T5KQRRSafwDF2JDXi+r7rOesTMxiTYKGRsarr0xzOH0H7mDSUnCya3dNq58uqntvU8w24KiuY9EmFbn2dWlJDfBfIROm9udAnnIvxCI7FBVaJkphC+e/vrp8uySS2XB6oNSQAKd/dUW1zHFioGTM8XcNIXEwdHESzeWtuWTwQ0yvjGJM+ObPwYkc1F4Z5TzggytlwkCSXWQ4=; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; tag_view_ranking=0xsDLqCEW6~RTJMXD26Ak~Lt-oEicbBr~Ie2c51_4Sp~_EOd7bsGyl~jH0uD88V6F~faHcYIP1U0~RybylJRnhJ~RcahSSzeRf~KN7uxuR89w~V7AIQ6HoRs~LJo91uBPz4~BSlt10mdnm~wKl4cqK7Gl~KvAGITxIxH~Bd2L9ZBE8q~sLQ8trav9X~PwDMGzD6xn~ziiAzr_h04~2QTW_H5tVX~IYclAM59kT~pnCQRVigpy~azESOjmQSV~KOnmT1ndWG~5oPIfUbtd6~aKhT3n4RHZ~qtVr8SCFs5~9ODMAZ0ebV~nQRrj5c6w_~Dd2BFtvC_a~X_1kwTzaXt~AI_aJCDFn0~Q5Czm-h3II~uC2yUZfXDc~_hSAdpN9rx~CrFcrMFJzz~eVxus64GZU~-sp-9oh8uv~_Jc3XITZqL~pa4LoD4xuT~QjJSYNhDSl~uusOs0ipBx~_pwIgrV8TB~BrS6Sx41E_~03UrGVq0aZ~XHvHN9WS_x~2XSW7Dtt5E~v3nOtgG77A~gpglyfLkWs~XtgzxkCgH-~_vCZ2RLsY2~QaiOjmwQnI~LtW-gO6CmS~w8ffkPoJ_S~cryvQ5p2Tx~Ged1jLxcdL~lH5YZxnbfC~pzzjRSV6ZO~CiSfl_AE0h~MM6RXH_rlN~THI8rtfzKo~bO-WTeLxzY~fg8EOt4owo~65aiw_5Y72~H8dBmnNhw6~XgZwHIIL4V~LprETpwe6C~YXsA4N8tVW~wOoq4sXjoA~FDU-lMiwEp~WXbsuEKmd0~Txs9grkeRc~nljv7Scm8_~JO16HzBgpd~1SQy4SHbjC~YsXckoGh5X~tLo04SABRQ~fmZgEP1p5s~BtXd1-LPRH~i4Q_o7CyIB~DPr9_MYoUO~0F4QqxTayD~-MuiEJf_Sr~qnGN-oHRQo~_bee-JX46i~KrMg4c4zFf~UnI8eZzpBM~5WlN6qpDZj~1HD6lhXO_A~aMSPvw-ONW~QzKFCsGzn-~qmix1djJUJ~_sjpLQz14H~dbWQByG3DG~j3leh4reoN~5HLoyY-WZ7~rIC2oNFqzh~engSCj5XFq~-StjcwdYwv~5JPpsmyDQH");
+        conn.setRequestProperty("referer","https://www.pixiv.net/");
+        conn.setRequestProperty("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36");
+        conn.connect();
+        in = conn.getInputStream();
+        BufferedImage bufferedImage = ImageIO.read(in);
+        String format = picurl.substring(picurl.lastIndexOf(".") + 1);;
+        ImageIO.write(bufferedImage,format,response.getOutputStream());
+
+//        response.setContentType("image/jpg");
+//        OutputStream out = response.getOutputStream();
+//        byte[] buff = new byte[100];
+//        int rc = 0;
+//        while ((rc = in.read(buff, 0, 100)) > 0) {
+//            out.write(buff, 0, rc);
+//        }
+//        out.flush();
+
+    }
+    public String gethtml(String url){
+        RestTemplate  restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        HttpHeaders headers = new HttpHeaders();
+        List<String> cookies = new ArrayList<>();
+        System.setProperty("java.net.useSystemProxies", "true");
+        List<String> ua = new ArrayList<>();
+        List<String> ref = new ArrayList<>();
+        cookies.add("first_visit_datetime_pc=2022-02-25+14:30:21; p_ab_id=1; p_ab_id_2=7; p_ab_d_id=97184414; yuid_b=GCADQZg; privacy_policy_notification=0; a_type=0; b_type=1; c_type=28; adr_id=EokF4ynu2YkYGLuZTR4LkvZsNNOj7GU9nBAH0nf2ZHlSFdEz; login_ever=yes; _td=6f0d3b59-877a-4bf8-a5b9-3e04abedcc37; PHPSESSID=28332859_JikCjRe6rJc0FL1z1TkThwyvhwL0bqfJ; device_token=67cf36be4d40f620a765eb1202b7b31c; privacy_policy_agreement=0; __cf_bm=mk6FrbobcSbxaRRdUUWs.cNToFWe2l1wnNIBFTosnw4-1670829064-0-AbHwWf/NX4/T5KQRRSafwDF2JDXi+r7rOesTMxiTYKGRsarr0xzOH0H7mDSUnCya3dNq58uqntvU8w24KiuY9EmFbn2dWlJDfBfIROm9udAnnIvxCI7FBVaJkphC+e/vrp8uySS2XB6oNSQAKd/dUW1zHFioGTM8XcNIXEwdHESzeWtuWTwQ0yvjGJM+ObPwYkc1F4Z5TzggytlwkCSXWQ4=; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; tag_view_ranking=0xsDLqCEW6~RTJMXD26Ak~Lt-oEicbBr~Ie2c51_4Sp~_EOd7bsGyl~jH0uD88V6F~faHcYIP1U0~RybylJRnhJ~RcahSSzeRf~KN7uxuR89w~V7AIQ6HoRs~LJo91uBPz4~BSlt10mdnm~wKl4cqK7Gl~KvAGITxIxH~Bd2L9ZBE8q~sLQ8trav9X~PwDMGzD6xn~ziiAzr_h04~2QTW_H5tVX~IYclAM59kT~pnCQRVigpy~azESOjmQSV~KOnmT1ndWG~5oPIfUbtd6~aKhT3n4RHZ~qtVr8SCFs5~9ODMAZ0ebV~nQRrj5c6w_~Dd2BFtvC_a~X_1kwTzaXt~AI_aJCDFn0~Q5Czm-h3II~uC2yUZfXDc~_hSAdpN9rx~CrFcrMFJzz~eVxus64GZU~-sp-9oh8uv~_Jc3XITZqL~pa4LoD4xuT~QjJSYNhDSl~uusOs0ipBx~_pwIgrV8TB~BrS6Sx41E_~03UrGVq0aZ~XHvHN9WS_x~2XSW7Dtt5E~v3nOtgG77A~gpglyfLkWs~XtgzxkCgH-~_vCZ2RLsY2~QaiOjmwQnI~LtW-gO6CmS~w8ffkPoJ_S~cryvQ5p2Tx~Ged1jLxcdL~lH5YZxnbfC~pzzjRSV6ZO~CiSfl_AE0h~MM6RXH_rlN~THI8rtfzKo~bO-WTeLxzY~fg8EOt4owo~65aiw_5Y72~H8dBmnNhw6~XgZwHIIL4V~LprETpwe6C~YXsA4N8tVW~wOoq4sXjoA~FDU-lMiwEp~WXbsuEKmd0~Txs9grkeRc~nljv7Scm8_~JO16HzBgpd~1SQy4SHbjC~YsXckoGh5X~tLo04SABRQ~fmZgEP1p5s~BtXd1-LPRH~i4Q_o7CyIB~DPr9_MYoUO~0F4QqxTayD~-MuiEJf_Sr~qnGN-oHRQo~_bee-JX46i~KrMg4c4zFf~UnI8eZzpBM~5WlN6qpDZj~1HD6lhXO_A~aMSPvw-ONW~QzKFCsGzn-~qmix1djJUJ~_sjpLQz14H~dbWQByG3DG~j3leh4reoN~5HLoyY-WZ7~rIC2oNFqzh~engSCj5XFq~-StjcwdYwv~5JPpsmyDQH");
+        ua.add("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36");
+        ref.add("https://www.pixiv.net/");
+        headers.put(HttpHeaders.COOKIE,cookies);
+        headers.put(HttpHeaders.USER_AGENT,ua);
+        headers.put(HttpHeaders.REFERER,ref);
+        headers.setContentType(MediaType.parseMediaType("application/json;charset=UTF-8"));
+        SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        simpleClientHttpRequestFactory.setProxy(new Proxy(Proxy.Type.HTTP,new InetSocketAddress("127.0.0.1",17890))); // 添加代理 ip 和 port 即可
+        restTemplate.setRequestFactory(simpleClientHttpRequestFactory);
+        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        return response.getBody();
+
+
+    }
+
+}

@@ -1,0 +1,50 @@
+body{
+    background: #FCDEC0;
+}
+.title ul {
+    background-color: #7D5A50;
+}
+.item img{
+    background: #FFE2E2;
+}
+.top p{
+    color: #FCF8E8;
+}
+#carousel1{
+    background-color: #B4846C;
+}
+.numtag1{
+    background-color: #3a6e9b;
+}
+/*Track*/
+::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/*Handle*/
+::-webkit-scrollbar-thumb {
+    background-color: #FFC7C7;
+}
+.numtag{
+    background-color: #747fb6;
+}
+.numtag span{
+    color: #b6d1e3;
+}
+.numtag1{
+
+    background-color: #3a6e9b;
+
+}
+.numtag1 span{
+
+    color: white;
+
+}
+
+.search1{
+
+    color: azure;
+
+    background: #747fb6;
+}

@@ -1,0 +1,86 @@
+package com.pixiv.controller.Interceptor;
+
+
+import com.pixiv.controller.Interceptor.CheckCookie;
+import com.pixiv.user.Users;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
+
+
+/**
+ * @author leesin
+ */
+@Component
+public class changeIntercepter implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        HttpSession session = request.getSession();
+        Object userInfo = session.getAttribute("userInfo");
+        if (userInfo == null) {
+            String username = CheckCookie.checkcookie(request.getCookies());
+            if (username != null) {
+                session.setAttribute("userInfo",username);
+                request.setAttribute("cookie22",Users.getUsers().get(username).getCookie());
+            }
+        }else {
+            if(Users.getUsers().containsKey(userInfo)){
+                request.setAttribute("cookie22",Users.getUsers().get(userInfo).getCookie());
+            }else {
+                System.out.println("怎么回事啊");
+            }
+        }
+        Object col = session.getAttribute("col");
+        System.out.println("col = " + col);
+
+        if (col == null){
+            System.out.println("set col");
+            session.setAttribute("col",Others.getDefcol());
+        }else {
+            String colc = CheckCookie.checkcookie1(request.getCookies());
+            if(colc == null){
+                Cookie cookie3 = new Cookie("col",String.valueOf(Others.getDefcol()));
+                cookie3.setMaxAge(60*60*24* Others.getMaxday());
+                cookie3.setPath(request.getContextPath());
+                response.addCookie(cookie3);
+                session.setAttribute("col",String.valueOf(Others.getDefcol()));
+            }else {
+                session.setAttribute("col",colc);
+            }
+
+        }
+        return true;
+    }
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        HttpSession session = request.getSession();
+        Object userInfo = session.getAttribute("userInfo");
+        boolean flag = false;
+        if("GET".equals(request.getMethod())) {
+            if (userInfo == null) {
+                String username = CheckCookie.checkcookie(request.getCookies());
+                if (username != null) {
+                    flag = true;
+                }
+            } else {
+                flag = true;
+            }
+
+            if(flag){
+                modelAndView.addObject("login","true");
+            }else {
+                modelAndView.addObject("login","false");
+            }
+        }
+    }
+}
+

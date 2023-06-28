@@ -1,0 +1,138 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title th:if="${title}" th:text="${title}"></title>
+  <title th:unless="${title}" th:text="${mode1}"></title>
+<!--  <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/waterfall.js"></script>
+  <link rel="stylesheet" type="text/css" id="global" href="/css/global.css">
+  <link rel="stylesheet" type="text/css" id="wallpaper" href="/css/wallpaper.css">
+  <link rel="stylesheet" type="text/css" id="rank" href="/css/rank.css">
+  <link rel="stylesheet" type="text/css" id="color" href="/css/themecolor.css">
+</head>
+
+<body>
+
+<div class="over"></div>
+<div class="title">
+  <ul>
+    <li><a href="/rank/monthly">月榜</a></li>
+    <li><a href="/rank/weekly">周榜</a></li>
+    <li><a href="/rank/daily">日榜</a></li>
+    <li><a href="/rank/daily_ai">AI榜</a></li>
+    <li><a href="/rank/male">男榜</a></li>
+    <li><a href="/rank/female">女榜</a></li>
+    <li><a href="/rank/weekly_r18">周榜R</a></li>
+    <li><a href="/rank/daily_r18">日榜R</a></li>
+    <li><a href="/rank/daily_r18_ai">AI榜R</a></li>
+    <li th:if="${login}"><a href="/update">更新</a></li>
+    <li th:if="${login}"><a href="/bookmark">收藏</a></li>
+    <li th:if="${login}"><a href="/follow">关注</a></li>
+    <li th:if="${login}"><a href="/recommend">推荐</a></li>
+    <li th:unless="${login}"><a href="/login">登录</a></li>
+    <li th:if="${login}"><a href="/logout">登出</a></li>
+    <li>
+      <form action="#" id="href" onsubmit="return tiao()">
+      <input type="text" placeholder="输入id" id="search" value="" pattern=[0-9]*>
+        <button type="submit" value="确定" class="search1">确定</button>
+      </form>
+    </li>
+    <li  style="float:right">
+<div th:unless="${name}" class="titlenie" id="titlenie">
+  <div class="datebtn" th:if="${prevdate}"  th:onclick="tiao3([[${prevdate}]])"><p>上一天</p></div>
+    <span th:if="${date}" th:text="${date}"></span>
+    <span th:if="${date}" th:text="${mode1}"></span>
+  <div class="datebtn" th:if="${nextdate}" th:onclick="tiao3([[${nextdate}]])"><p>下一天</p></div>
+</div>
+      <div th:if="${name}" style="display: flex;justify-content: center">
+        <img class="proimg" th:src="|/img/${imgurl}|" style="width: 50px;height: 50px;">
+        <span th:text="${name}"></span>
+      </div>
+</li>
+  </ul>
+</div>
+<div class="masonry">
+
+<div class="item" th:each="json,stat:${array}" >
+  <div class="top">
+    <p th:text="${json.title}"></p>
+    <div th:if="${json.num} gt 1" class="numtag">
+      <span th:text="${json.num}"></span>
+    </div>
+  </div>
+  <div  class="imgct">
+  <img class="img" th:id="|img${stat.count}|" th:data-src="|/pid/${json.pid}|" src="#" th:alt="${json.num}">
+  </div>
+  <div th:if="${login}" th:id="|heart${stat.count}|" class="box"></div>
+  <div class="bottom">
+  <a th:href="|/id/${json.uid}|" target="_blank">
+    <p th:text="${json.username}"></p>
+  </a>
+  </div>
+  </div>
+</div>
+  <script th:inline="javascript">
+    var array = [[${array}]];
+    var id2 = [[${id}]]
+    // alert(getClient().width+'and'+getClient().height)
+    var mode1 = [[${mode}]]
+    var date1 = [[${date}]]
+    var btn = $(".datebtn")
+    // if(btn.length>0 && btn.attr("onclick").indexOf("jsession")>-1){
+    //   location.reload();
+    // }
+    var cols = 1
+    waterFall(-1)
+  </script>
+    <ul id="menu">
+
+      <a class="menu-button icon-plus" id="open-menu" href="#menu" ></a>
+      <a class="menu-button icon-minus" href="#0" title="Hide navigation"></a>
+      <li class="menu-item">
+        <a href="javascript:waterFall(3)">
+          <span class="fa">三</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="javascript:waterFall(4)">
+          <span class="fa">四</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="javascript:waterFall(5)">
+          <span class="fa">五</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="javascript:waterFall(6)">
+          <span class="fa">六</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="javascript:bigImg(0)">
+          <span class="fa">大</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#titlenie">
+          <span class="fa">UP</span>
+        </a>
+      </li>
+    </ul>
+
+  <div class="loadingOne" style="display: none">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+
+<script th:if="${login}" type="text/javascript" src="/js/bookmark.js"></script>
+<script  type="text/javascript" src="/js/rank.js"></script>
+<script type="text/javascript" src="/js/wallpaper.js"></script>
+</body>
+</html>

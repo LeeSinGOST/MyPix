@@ -1,0 +1,148 @@
+.loadingOne{
+    width: 40px;
+    height: 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+
+    z-index: 5;
+}
+.loadingOne span{
+    display: inline-block;
+    width: 8px;
+    height: 100%;
+    border-radius: 4px;
+    background: lightgreen;
+    -webkit-animation: load 1s ease infinite;
+    animation: load 1s ease infinite;
+}
+@-webkit-keyframes load{
+    0%,100%{
+        height: 40px;
+        background: lightgreen;
+    }
+    50%{
+        height: 70px;
+        margin: -15px 0;
+        background: lightblue;
+    }
+}
+.loadingOne span:nth-child(2){
+    -webkit-animation-delay:0.2s;
+    animation-delay:0.2s;
+}
+.loadingOne span:nth-child(3){
+    -webkit-animation-delay:0.4s;
+    animation-delay:0.4s;
+}
+.loadingOne span:nth-child(4){
+    -webkit-animation-delay:0.6s;
+    animation-delay:0.6s;
+}
+.loadingOne span:nth-child(5){
+    -webkit-animation-delay:0.8s;
+    animation-delay:0.8s;
+}
+.title li a:hover {
+    background-color: #747fb6;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+/*Track*/
+::-webkit-scrollbar-track {
+
+    border-radius: 10px;
+}
+
+/*Handle*/
+::-webkit-scrollbar-thumb {
+
+    border-radius: 10px;
+}
+
+
+body{
+    -webkit-user-select: none;
+    /* 兼容IE 10+ 和 Edge */
+    -ms-user-select: none;
+    /*
+        ⏹禁止用户选中的标准语法
+    */
+    user-select: none;
+
+}
+img{
+    -webkit-user-drag: none;
+}
+.title ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 40px;
+    overflow: hidden;
+    /*background-color: #c09c9c;*/
+    /*background-color: #205f86;*/
+}
+
+.title li {
+    float: left;
+}
+
+.title li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.title span{
+    display: block;
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#titlenie{
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+}
+#search{
+    margin-left: 30px;
+    width: 135px;
+    height: 30px;
+    border-radius: 10px;
+    margin-top: 8px;
+    border: 1px solid #999999;
+    color: white;
+    background-color: transparent;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.search1{
+    width: 42px;
+    height: 30px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: 0;
+
+    font-size: 12px;
+    cursor: pointer;
+
+}
+.numtag{
+    position: absolute;
+    margin: auto;
+    right: 20px;
+    top: 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    text-align: center;
+}
