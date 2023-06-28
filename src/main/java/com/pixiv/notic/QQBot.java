@@ -19,7 +19,7 @@ public class QQBot {
 
     public static void sentqq(String content) throws IOException {
         String url = "https://push.kokutou.top/sent";
-        String qid = "7290766660";
+        String qid = "729066660";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id",qid);
         jsonObject.put("content",content);
