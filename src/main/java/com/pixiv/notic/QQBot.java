@@ -2,6 +2,7 @@ package com.pixiv.notic;
 
 
 
+import com.pixiv.user.Others;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -18,8 +19,9 @@ import java.io.IOException;
 public class QQBot {
 
     public static void sentqq(String content) throws IOException {
-        String url = "https://push.kokutou.top/sent";
-        String qid = "729066660";
+//        String url = "";
+        String url = Others.getPushurl();
+        String qid = Others.getQqnum();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id",qid);
         jsonObject.put("content",content);

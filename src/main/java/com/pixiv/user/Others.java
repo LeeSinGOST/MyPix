@@ -16,8 +16,12 @@ public class Others {
     private static int pagesize;
     private static int maxday;
     private static int defcol;
+    private static String qqnum;
+    private static String pushurl;
+
+
     @Value("${custom.others.globalcookie}")
-    public void setGlobalcookier(String globalcookie) {
+    public void setGlobalcookie(String globalcookie) {
         Others.globalcookie = globalcookie;
     }
     @Value("${custom.others.onproxy}")
@@ -35,6 +39,14 @@ public class Others {
     @Value("${custom.others.defcol}")
     public void setDefcol(int defcol) {
         Others.defcol = defcol;
+    }
+    @Value("${custom.others.qqnum}")
+    public void setQqnum(String qqnum) {
+        Others.qqnum = qqnum;
+    }
+    @Value("${custom.others.pushurl}")
+    public void setPushurl(String pushurl) {
+        Others.pushurl = pushurl;
     }
 
     public static String getGlobalcookie() {
@@ -56,4 +68,6 @@ public class Others {
     public static int getDefcol() {
         return defcol;
     }
+    public static String getQqnum() { return qqnum;}
+    public static String getPushurl() {return pushurl;}
 }

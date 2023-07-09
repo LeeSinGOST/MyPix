@@ -33,21 +33,7 @@ public class CheckCookie {
         }
         return null;
     }
-//    public static String checkcookie1(Cookie cookies[]){
-//
-//        String col;
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if("col".equals(cookie.getName())){
-//                    col = cookie.getValue();
-//                    return col;
-//                }
-//
-//            }
-//
-//        }
-//        return null;
-//    }
+
 
 
 

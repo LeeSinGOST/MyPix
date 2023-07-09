@@ -47,7 +47,9 @@ public class login {
         if(Users.getUsers().containsKey(username) && Users.getUsers().get(username).getPassword().equals(password)){
             Cookie cookie1 = new Cookie("username",username);
             Cookie cookie2 = new Cookie("password",password);
-            QQBot.sentqq(username+" 登录成功 \nip："+"\n"+realip);
+            if(Others.getQqnum()!=null && Others.getPushurl()!=null) {
+                QQBot.sentqq(username + " 登录成功 \nip：" + realip);
+            }
             cookie1.setMaxAge(maxday);
             cookie2.setMaxAge(maxday);
             cookie1.setPath(request.getContextPath());

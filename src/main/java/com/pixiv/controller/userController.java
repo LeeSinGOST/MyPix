@@ -34,11 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class userController {
-
-//    String cookie = "yuid_b=EXVJUSM; first_visit_datetime_pc=2022-11-06+00:10:36; p_ab_id=5; p_ab_id_2=9; p_ab_d_id=2001829548; _fbp=fb.1.1667661037610.365289046; privacy_policy_notification=0; a_type=0; b_type=1; __utma=235335808.2002852190.1667661036.1672718574.1672718574.1; __utmz=235335808.1672718574.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __cf_bm=j8Om7GaTjo2Xdxbpm5m_LTliyGxuNhTxGukH7W5YP4w-1672718577-0-AcBqtHxGktDEjV6HcooEil8kRItTaowetaDqxV3Xw/OeRFPW76TfIImRUair2kVp7s/SUaiAp2sxeqszmGUrsUawOGpeRQXIQ/QgFrbIV6EPktAnVPSLiACZtCJc2NEN5xaQE2glU43Y4eldtNiGXunR3dMMVuppIugnl3PH6X4DbODm1HZEw8lqekzvOGiVaQ1EyQP42IrHusw/RtGoxcg=; _gid=GA1.2.94089719.1672718578; PHPSESSID=89738068_SklBpT6PpQJ6gPJrJgzUQ7JRnxKCe2WS; device_token=6113c2cecfe54c52174ff0d26cd047af; privacy_policy_agreement=5; _ga_MZ1NL4PHH0=GS1.1.1672718578.2.1.1672718653.0.0.0; c_type=23; _im_vid=01GNTWT8NSYS28Z077WH30MJFK; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; login_ever=yes; _gcl_au=1.1.1173950000.1672718739; __utmv=235335808.|2=login ever=yes=1^3=plan=normal=1^5=gender=male=1^6=user_id=89738068=1^9=p_ab_id=5=1^10=p_ab_id_2=9=1^11=lang=zh=1; user_language=zh; __utmc=235335808; adr_id=OhyppC52eRAci1lLjUQ8sniyMfhgEU6PsKvlX6fxnXPq0nLe; tag_view_ranking=RTJMXD26Ak~jH0uD88V6F~OfvEJkxqVs~0xsDLqCEW6~iFcW6hPGPU~EGefOqA6KB~BiQisSyES_~gkL6GKqYU6~ML8s4PH95U~aKhT3n4RHZ~NsbQEogeyL~O1aut1etjj~Lt-oEicbBr~7WfWkHyQ76~ZjqkGa4aKP~PjWokVXSAa; __utmt=1; __utmb=235335808.30.10.1672718574; cto_bundle=giNU019VZExHWFBwbGN3SWFnaHJwWlRJWU9zTXl0cDdLbUZCN2lLSVY3aVh5UmR6eWpNSVB6MGUwOUNncFJ3Q3Fjc3olMkYlMkZyVk9neUNuMHZNTVhndHFvdHhzOHdYd01yejlUTzA4VWtvWm1OJTJGTHMlMkZDaTJ2WGV3V3daMkI2R1AlMkZ0RXFnZFFFWXZWTGFwdVVZOWJXMGN6TEpqWklnJTNEJTNE; _ga_75BBYNYN9J=GS1.1.1672718574.2.1.1672719325.0.0.0; _ga=GA1.2.2002852190.1667661036; _gat_UA-1830249-3=1";
-//    String cookie = "first_visit_datetime_pc=2022-02-25+14:30:21; p_ab_id=1; p_ab_id_2=7; p_ab_d_id=97184414; yuid_b=GCADQZg; privacy_policy_notification=0; a_type=0; b_type=1; c_type=28; adr_id=EokF4ynu2YkYGLuZTR4LkvZsNNOj7GU9nBAH0nf2ZHlSFdEz; login_ever=yes; _td=6f0d3b59-877a-4bf8-a5b9-3e04abedcc37; PHPSESSID=28332859_JikCjRe6rJc0FL1z1TkThwyvhwL0bqfJ; device_token=67cf36be4d40f620a765eb1202b7b31c; privacy_policy_agreement=0; __cf_bm=mk6FrbobcSbxaRRdUUWs.cNToFWe2l1wnNIBFTosnw4-1670829064-0-AbHwWf/NX4/T5KQRRSafwDF2JDXi+r7rOesTMxiTYKGRsarr0xzOH0H7mDSUnCya3dNq58uqntvU8w24KiuY9EmFbn2dWlJDfBfIROm9udAnnIvxCI7FBVaJkphC+e/vrp8uySS2XB6oNSQAKd/dUW1zHFioGTM8XcNIXEwdHESzeWtuWTwQ0yvjGJM+ObPwYkc1F4Z5TzggytlwkCSXWQ4=; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; tag_view_ranking=0xsDLqCEW6~RTJMXD26Ak~Lt-oEicbBr~Ie2c51_4Sp~_EOd7bsGyl~jH0uD88V6F~faHcYIP1U0~RybylJRnhJ~RcahSSzeRf~KN7uxuR89w~V7AIQ6HoRs~LJo91uBPz4~BSlt10mdnm~wKl4cqK7Gl~KvAGITxIxH~Bd2L9ZBE8q~sLQ8trav9X~PwDMGzD6xn~ziiAzr_h04~2QTW_H5tVX~IYclAM59kT~pnCQRVigpy~azESOjmQSV~KOnmT1ndWG~5oPIfUbtd6~aKhT3n4RHZ~qtVr8SCFs5~9ODMAZ0ebV~nQRrj5c6w_~Dd2BFtvC_a~X_1kwTzaXt~AI_aJCDFn0~Q5Czm-h3II~uC2yUZfXDc~_hSAdpN9rx~CrFcrMFJzz~eVxus64GZU~-sp-9oh8uv~_Jc3XITZqL~pa4LoD4xuT~QjJSYNhDSl~uusOs0ipBx~_pwIgrV8TB~BrS6Sx41E_~03UrGVq0aZ~XHvHN9WS_x~2XSW7Dtt5E~v3nOtgG77A~gpglyfLkWs~XtgzxkCgH-~_vCZ2RLsY2~QaiOjmwQnI~LtW-gO6CmS~w8ffkPoJ_S~cryvQ5p2Tx~Ged1jLxcdL~lH5YZxnbfC~pzzjRSV6ZO~CiSfl_AE0h~MM6RXH_rlN~THI8rtfzKo~bO-WTeLxzY~fg8EOt4owo~65aiw_5Y72~H8dBmnNhw6~XgZwHIIL4V~LprETpwe6C~YXsA4N8tVW~wOoq4sXjoA~FDU-lMiwEp~WXbsuEKmd0~Txs9grkeRc~nljv7Scm8_~JO16HzBgpd~1SQy4SHbjC~YsXckoGh5X~tLo04SABRQ~fmZgEP1p5s~BtXd1-LPRH~i4Q_o7CyIB~DPr9_MYoUO~0F4QqxTayD~-MuiEJf_Sr~qnGN-oHRQo~_bee-JX46i~KrMg4c4zFf~UnI8eZzpBM~5WlN6qpDZj~1HD6lhXO_A~aMSPvw-ONW~QzKFCsGzn-~qmix1djJUJ~_sjpLQz14H~dbWQByG3DG~j3leh4reoN~5HLoyY-WZ7~rIC2oNFqzh~engSCj5XFq~-StjcwdYwv~5JPpsmyDQH";
-//    private String cookie = "yuid_b=EXVJUSM; first_visit_datetime_pc=2022-11-06+00%3A10%3A36; p_ab_id=5; p_ab_id_2=9; p_ab_d_id=2001829548; _fbp=fb.1.1667661037610.365289046; privacy_policy_notification=0; a_type=0; b_type=1; __utmz=235335808.1672718574.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); device_token=6113c2cecfe54c52174ff0d26cd047af; _im_vid=01GNTWT8NSYS28Z077WH30MJFK; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; login_ever=yes; _gcl_au=1.1.1173950000.1672718739; adr_id=OhyppC52eRAci1lLjUQ8sniyMfhgEU6PsKvlX6fxnXPq0nLe; tag_view_ranking=RTJMXD26Ak~jH0uD88V6F~OfvEJkxqVs~Lt-oEicbBr~0xsDLqCEW6~iFcW6hPGPU~EGefOqA6KB~BiQisSyES_~gkL6GKqYU6~ML8s4PH95U~aKhT3n4RHZ~NsbQEogeyL~O1aut1etjj~eVxus64GZU~-98s6o2-Rp~JmbJ_pZA-4~OqKJfTXHwu~0cVg6zK-_N~1n-RsNEFpK~ZldurqefWy~W6bX8FRdBM~nUChZeZyGT~7WfWkHyQ76~ZjqkGa4aKP~PjWokVXSAa; __utmc=235335808; _gid=GA1.2.1314310702.1672914952; PHPSESSID=73518020_tHWe1B59LXGFbixwng3Zgq94y184gJX7; c_type=27; privacy_policy_agreement=0; _ga_MZ1NL4PHH0=GS1.1.1672915099.4.0.1672915105.0.0.0; __utmv=235335808.|2=login%20ever=yes=1^3=plan=normal=1^5=gender=male=1^6=user_id=73518020=1^9=p_ab_id=5=1^10=p_ab_id_2=9=1^11=lang=zh=1; __utma=235335808.2002852190.1667661036.1672914950.1672917087.4; __utmt=1; __cf_bm=m.i9i0HIyb0XaiiuZX9whlO0HLrjQXDoeQn8eG45SVA-1672917091-0-AeusTkFp0zt8aNmzb4Mf0bgs0KizTZ7jGrrSAJGYTk39kqZzIQr+b66Exae0b3m8WzW19TAkr6HEWnd87azgHgM7xEUIH4aEumlgCfrQyTmUMJeKyIMRV7SpDe4tfZt/bDS4piDO4tHEsUK4XjRXBF5Yi45nQLTkpxcGCIGUxGp1vqQdCjUXhhaAuZMMio43jQ9SEYv9/a6d01UpA0ZPPsI=; _ga=GA1.2.2002852190.1667661036; _gat_UA-1830249-3=1; __utmb=235335808.2.10.1672917087; _ga_75BBYNYN9J=GS1.1.1672917089.6.1.1672917097.0.0.0; cto_bundle=Yme7xV9VZExHWFBwbGN3SWFnaHJwWlRJWU90Nmk5MlA2ZGVKJTJGSnN0cjZsQUdTanBkY3BYOHBMWWdvUEJGOFdvaFBVaDBnU1RwMmtJUFJhcng5dXg4N1VDc1BaRFhnTGQ2cjdQQ0xITmRTbndRVmhVZmVEJTJCUXRxNFBDWFQ3MVM1aWNSOCUyQkpmYnpCdTZZR3RmQ1BrSmNyRnQ0NlElM0QlM0Q";
-//    private String cookie = "yuid_b=EXVJUSM; first_visit_datetime_pc=2022-11-06+00%3A10%3A36; p_ab_id=5; p_ab_id_2=9; p_ab_d_id=2001829548; _fbp=fb.1.1667661037610.365289046; privacy_policy_notification=0; a_type=0; b_type=1; device_token=6113c2cecfe54c52174ff0d26cd047af; _im_vid=01GNTWT8NSYS28Z077WH30MJFK; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; login_ever=yes; _gcl_au=1.1.1173950000.1672718739; adr_id=OhyppC52eRAci1lLjUQ8sniyMfhgEU6PsKvlX6fxnXPq0nLe; _gid=GA1.2.1314310702.1672914952; c_type=27; __utmv=235335808.|2=login%20ever=yes=1^3=plan=normal=1^5=gender=male=1^6=user_id=73518020=1^9=p_ab_id=5=1^10=p_ab_id_2=9=1^11=lang=zh=1; __utmc=235335808; __cf_bm=DLb.Ff_8aVBlVlLwYkbylPp9pOqyle.1uFYM2Fv9NSo-1672973140-0-AdUMtPIXrh4vsFkzBN5j/WXsJpynY1SpnBPKXB9UcNM70KTSKHyc05j2nrn5PQ5tN+m8DrJezbWnTkiCxTac5f9FwOC9XJOhEvQOnZeXegiB36EDCgskux1s4YiSmAXlOchagFMceMX6XXl50rY+UBo/+I6nZBf2gOtWCHGIKOKcAn0WzbpxzABo4FsXErtjwHyBXgODKLL1DUxydC06E+c=; _ga_MZ1NL4PHH0=GS1.1.1672973140.6.1.1672973603.0.0.0; PHPSESSID=73518020_OBwT2rcEmAXUfnOyvas0plp5D8WGQmDa; privacy_policy_agreement=0; __utma=235335808.2002852190.1667661036.1672968572.1672973611.7; __utmz=235335808.1672973611.7.2.utmcsr=accounts.google.com|utmccn=(referral)|utmcmd=referral|utmcct=/; __utmt=1; _ga=GA1.2.2002852190.1667661036; tag_view_ranking=RTJMXD26Ak~jH0uD88V6F~OfvEJkxqVs~Lt-oEicbBr~0xsDLqCEW6~iFcW6hPGPU~EGefOqA6KB~BiQisSyES_~gkL6GKqYU6~ML8s4PH95U~aKhT3n4RHZ~NsbQEogeyL~O1aut1etjj~_EOd7bsGyl~OUF2gvwPef~dg_40nEhSE~-O-NE-glI0~q303ip6Ui5~qIDsnltE2o~GlEsKjRIS3~HffPWSkEm-~tws8Fo03IJ~eVxus64GZU~-98s6o2-Rp~JmbJ_pZA-4~OqKJfTXHwu~0cVg6zK-_N~1n-RsNEFpK~ZldurqefWy~W6bX8FRdBM~nUChZeZyGT~7WfWkHyQ76~ZjqkGa4aKP~PjWokVXSAa; __utmb=235335808.3.10.1672973611; _ga_75BBYNYN9J=GS1.1.1672973611.10.1.1672973728.0.0.0; cto_bundle=GP-oMl9VZExHWFBwbGN3SWFnaHJwWlRJWU92b21EZ0dPZE1pM0VIRG1kVEtDc1ZOZHRQamJMNUx0Y2xjUVJGZGV0a3RSM005dzMwSEQxRTVJWjI3b1BZaWl5cmolMkJOd3Z4WlFTMnJkRG45YzZaZ1Z4VEFiT0pXb1YxS0tZWTVWRHRTTk02aFVGaEdMaXowVG0xYWJBaHM2bmp0dyUzRCUzRA";
     @RequestMapping("/")
     public Object index(){
         return "redirect:/rank/monthly";
@@ -166,7 +161,6 @@ public class userController {
                 .getJSONObject("thumbnails")
                 .getJSONArray("illust");
         JSONArray jsonArray = getJson2(picinfo,1);
-//        System.out.println(jsonArray);
         String[] result = Utils.getInfo(cookie22);
         map.put("name",result[0]);
         map.put("imgurl",result[1]);
@@ -191,10 +185,7 @@ public class userController {
     }
     @RequestMapping(value = "/id/{id}",method = RequestMethod.GET)
     public Object test(@RequestAttribute(required = false) String cookie22,@PathVariable String id, String page, Map<String, Object> map){
-//        if(dest.equals("image")){
-//            System.out.println("拦住浏览器多管闲事");
-//            return "rank1";
-//        }
+
         if(cookie22 == null){
             cookie22 = Others.getGlobalcookie();
         }
@@ -226,43 +217,6 @@ public class userController {
         return getjson1(getPidlist(id,page),id);
     }
 
-//    @RequestMapping("/testtttt")
-//    public Object tset(Map<String, Object> map){
-//        String mode = "month";
-//        String page = null;
-//        String URL;
-//        switch (mode){
-//            case "month":mode="monthly";break;
-//            case "week":mode="weekly";break;
-//            default:return null;
-//        }
-//        System.out.println(mode);
-//        if (page==null){
-//            URL = "https://www.pixiv.net/ranking.php?mode="+mode+"&content=illust&format=json";
-//        }else {
-//            URL = "https://www.pixiv.net/ranking.php?mode="+mode+"&content=illust&p="+page+"&format=json";
-//        }
-//
-//        String html = gethtml(URL);
-//        JSONArray jsonArray = JSONObject.fromObject(html).getJSONArray("contents");
-//        String mode1 = JSONObject.fromObject(html).getString("mode");
-//        String date1 = JSONObject.fromObject(html).getString("date");
-//
-//        JSONArray jsonArray1 = getJson(jsonArray);
-//
-//        switch (mode){
-//            case "monthly":mode1="月榜";break;
-//            case "weekly":mode1="周榜";break;
-//            default:break;
-//        }
-//        System.out.println("rannkkk1111");
-//        map.put("array",jsonArray1);
-//        map.put("mode",mode);
-//        map.put("mode1",mode1);
-//        map.put("date",date1);
-//        System.out.println("iddd = " + iddd);
-//        return "rank";
-//    }
     @RequestMapping(value = "/pid/{pid}")
     @ResponseBody
     public void getimg(HttpServletResponse response, @PathVariable String pid,
@@ -275,7 +229,7 @@ public class userController {
             picurl = picurl.replace("_p0","_p"+num);
         }
         InputStream in = getimage(picurl);
-//        String filePath="https://i.pximg.net/img-original/img/2022/03/21/00/05/31/97059921_p0.jpg";
+
         BufferedImage bufferedImage = ImageIO.read(in);
         String format = picurl.substring(picurl.lastIndexOf(".") + 1);;
         ImageIO.write(bufferedImage,format,response.getOutputStream());
@@ -302,11 +256,6 @@ public class userController {
 
     @RequestMapping(value ="/rank/{mode}",method = RequestMethod.GET)
     public Object getrank(@PathVariable String mode, String date,Map<String, Object> map) throws ParseException {
-//        if(dest.equals("image")){
-////            System.out.println("拦住浏览器多管闲事");
-//            return "rank";
-//        }
-
         String URL;
         if (date==null){
             URL = "https://www.pixiv.net/ranking.php?format=json";
@@ -383,12 +332,11 @@ public class userController {
             String html = gethtml(burl,cookie22);
             String content1 = Jsoup.parse(html).select("meta[id=meta-global-data]").attr("content");
             String token = JSONObject.fromObject(content1).getString("token");
-//            String name = JSONObject.fromObject(content1).getString()
+
             HttpsURLConnection conn;
 
             if (Others.getOnproxy() == 1) {
                 Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 17890));
-//        filePath="https://img-blog.csdnimg.cn/20201014180756930.png";
                 URL urls = new URL(url);
                 conn = (HttpsURLConnection) urls.openConnection(proxy);
 
@@ -397,9 +345,7 @@ public class userController {
                 conn = (HttpsURLConnection) urls.openConnection();
 
             }
-//            String content = "mode=add&type=user&user_id=" + URLEncoder.encode(id, "UTF-8") + "&tag=&restrict=0&format=json";
             conn.setRequestProperty("Cookie",cookie22);
-//            conn.setRequestProperty("referer", "https://www.pixiv.net/users/" + id);
             conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36");
             conn.setRequestProperty("origin", "https://www.pixiv.net/");
             conn.setRequestProperty("accept", "application/json");
@@ -728,7 +674,6 @@ public class userController {
 
         List<String> ua = new ArrayList<>();
         List<String> ref = new ArrayList<>();
-//        cookies.add("first_visit_datetime_pc=2022-02-25+14:30:21; p_ab_id=1; p_ab_id_2=7; p_ab_d_id=97184414; yuid_b=GCADQZg; privacy_policy_notification=0; a_type=0; b_type=1; c_type=28; adr_id=EokF4ynu2YkYGLuZTR4LkvZsNNOj7GU9nBAH0nf2ZHlSFdEz; login_ever=yes; _td=6f0d3b59-877a-4bf8-a5b9-3e04abedcc37; PHPSESSID=28332859_JikCjRe6rJc0FL1z1TkThwyvhwL0bqfJ; device_token=67cf36be4d40f620a765eb1202b7b31c; privacy_policy_agreement=0; __cf_bm=mk6FrbobcSbxaRRdUUWs.cNToFWe2l1wnNIBFTosnw4-1670829064-0-AbHwWf/NX4/T5KQRRSafwDF2JDXi+r7rOesTMxiTYKGRsarr0xzOH0H7mDSUnCya3dNq58uqntvU8w24KiuY9EmFbn2dWlJDfBfIROm9udAnnIvxCI7FBVaJkphC+e/vrp8uySS2XB6oNSQAKd/dUW1zHFioGTM8XcNIXEwdHESzeWtuWTwQ0yvjGJM+ObPwYkc1F4Z5TzggytlwkCSXWQ4=; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; tag_view_ranking=0xsDLqCEW6~RTJMXD26Ak~Lt-oEicbBr~Ie2c51_4Sp~_EOd7bsGyl~jH0uD88V6F~faHcYIP1U0~RybylJRnhJ~RcahSSzeRf~KN7uxuR89w~V7AIQ6HoRs~LJo91uBPz4~BSlt10mdnm~wKl4cqK7Gl~KvAGITxIxH~Bd2L9ZBE8q~sLQ8trav9X~PwDMGzD6xn~ziiAzr_h04~2QTW_H5tVX~IYclAM59kT~pnCQRVigpy~azESOjmQSV~KOnmT1ndWG~5oPIfUbtd6~aKhT3n4RHZ~qtVr8SCFs5~9ODMAZ0ebV~nQRrj5c6w_~Dd2BFtvC_a~X_1kwTzaXt~AI_aJCDFn0~Q5Czm-h3II~uC2yUZfXDc~_hSAdpN9rx~CrFcrMFJzz~eVxus64GZU~-sp-9oh8uv~_Jc3XITZqL~pa4LoD4xuT~QjJSYNhDSl~uusOs0ipBx~_pwIgrV8TB~BrS6Sx41E_~03UrGVq0aZ~XHvHN9WS_x~2XSW7Dtt5E~v3nOtgG77A~gpglyfLkWs~XtgzxkCgH-~_vCZ2RLsY2~QaiOjmwQnI~LtW-gO6CmS~w8ffkPoJ_S~cryvQ5p2Tx~Ged1jLxcdL~lH5YZxnbfC~pzzjRSV6ZO~CiSfl_AE0h~MM6RXH_rlN~THI8rtfzKo~bO-WTeLxzY~fg8EOt4owo~65aiw_5Y72~H8dBmnNhw6~XgZwHIIL4V~LprETpwe6C~YXsA4N8tVW~wOoq4sXjoA~FDU-lMiwEp~WXbsuEKmd0~Txs9grkeRc~nljv7Scm8_~JO16HzBgpd~1SQy4SHbjC~YsXckoGh5X~tLo04SABRQ~fmZgEP1p5s~BtXd1-LPRH~i4Q_o7CyIB~DPr9_MYoUO~0F4QqxTayD~-MuiEJf_Sr~qnGN-oHRQo~_bee-JX46i~KrMg4c4zFf~UnI8eZzpBM~5WlN6qpDZj~1HD6lhXO_A~aMSPvw-ONW~QzKFCsGzn-~qmix1djJUJ~_sjpLQz14H~dbWQByG3DG~j3leh4reoN~5HLoyY-WZ7~rIC2oNFqzh~engSCj5XFq~-StjcwdYwv~5JPpsmyDQH");
         cookies.add(cookie);
         ua.add("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36");
         ref.add("https://www.pixiv.net/");
@@ -755,7 +700,7 @@ public class userController {
         URLConnection conn;
         if(Others.getOnproxy() == 1) {
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 17890));
-//        filePath="https://img-blog.csdnimg.cn/20201014180756930.png";
+
             URL urls = new URL(picurl);
             conn = urls.openConnection(proxy);
         }else{
@@ -766,7 +711,6 @@ public class userController {
 
         conn.setConnectTimeout(1000);
         conn.setReadTimeout(5000);
-//        conn.setRequestProperty("Cookie","first_visit_datetime_pc=2022-02-25+14:30:21; p_ab_id=1; p_ab_id_2=7; p_ab_d_id=97184414; yuid_b=GCADQZg; privacy_policy_notification=0; a_type=0; b_type=1; c_type=28; adr_id=EokF4ynu2YkYGLuZTR4LkvZsNNOj7GU9nBAH0nf2ZHlSFdEz; login_ever=yes; _td=6f0d3b59-877a-4bf8-a5b9-3e04abedcc37; PHPSESSID=28332859_JikCjRe6rJc0FL1z1TkThwyvhwL0bqfJ; device_token=67cf36be4d40f620a765eb1202b7b31c; privacy_policy_agreement=0; __cf_bm=mk6FrbobcSbxaRRdUUWs.cNToFWe2l1wnNIBFTosnw4-1670829064-0-AbHwWf/NX4/T5KQRRSafwDF2JDXi+r7rOesTMxiTYKGRsarr0xzOH0H7mDSUnCya3dNq58uqntvU8w24KiuY9EmFbn2dWlJDfBfIROm9udAnnIvxCI7FBVaJkphC+e/vrp8uySS2XB6oNSQAKd/dUW1zHFioGTM8XcNIXEwdHESzeWtuWTwQ0yvjGJM+ObPwYkc1F4Z5TzggytlwkCSXWQ4=; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; tag_view_ranking=0xsDLqCEW6~RTJMXD26Ak~Lt-oEicbBr~Ie2c51_4Sp~_EOd7bsGyl~jH0uD88V6F~faHcYIP1U0~RybylJRnhJ~RcahSSzeRf~KN7uxuR89w~V7AIQ6HoRs~LJo91uBPz4~BSlt10mdnm~wKl4cqK7Gl~KvAGITxIxH~Bd2L9ZBE8q~sLQ8trav9X~PwDMGzD6xn~ziiAzr_h04~2QTW_H5tVX~IYclAM59kT~pnCQRVigpy~azESOjmQSV~KOnmT1ndWG~5oPIfUbtd6~aKhT3n4RHZ~qtVr8SCFs5~9ODMAZ0ebV~nQRrj5c6w_~Dd2BFtvC_a~X_1kwTzaXt~AI_aJCDFn0~Q5Czm-h3II~uC2yUZfXDc~_hSAdpN9rx~CrFcrMFJzz~eVxus64GZU~-sp-9oh8uv~_Jc3XITZqL~pa4LoD4xuT~QjJSYNhDSl~uusOs0ipBx~_pwIgrV8TB~BrS6Sx41E_~03UrGVq0aZ~XHvHN9WS_x~2XSW7Dtt5E~v3nOtgG77A~gpglyfLkWs~XtgzxkCgH-~_vCZ2RLsY2~QaiOjmwQnI~LtW-gO6CmS~w8ffkPoJ_S~cryvQ5p2Tx~Ged1jLxcdL~lH5YZxnbfC~pzzjRSV6ZO~CiSfl_AE0h~MM6RXH_rlN~THI8rtfzKo~bO-WTeLxzY~fg8EOt4owo~65aiw_5Y72~H8dBmnNhw6~XgZwHIIL4V~LprETpwe6C~YXsA4N8tVW~wOoq4sXjoA~FDU-lMiwEp~WXbsuEKmd0~Txs9grkeRc~nljv7Scm8_~JO16HzBgpd~1SQy4SHbjC~YsXckoGh5X~tLo04SABRQ~fmZgEP1p5s~BtXd1-LPRH~i4Q_o7CyIB~DPr9_MYoUO~0F4QqxTayD~-MuiEJf_Sr~qnGN-oHRQo~_bee-JX46i~KrMg4c4zFf~UnI8eZzpBM~5WlN6qpDZj~1HD6lhXO_A~aMSPvw-ONW~QzKFCsGzn-~qmix1djJUJ~_sjpLQz14H~dbWQByG3DG~j3leh4reoN~5HLoyY-WZ7~rIC2oNFqzh~engSCj5XFq~-StjcwdYwv~5JPpsmyDQH");
         conn.setRequestProperty("Cookie",Others.getGlobalcookie());
         conn.setRequestProperty("referer","https://www.pixiv.net/");
         conn.setRequestProperty("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36");
