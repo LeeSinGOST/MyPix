@@ -4,8 +4,6 @@ on:
   pull_request:
     branches: [ master ]
 
-distribution:
-
 env:
   # 设置 docker 镜像名
   IMAGE_NAME: mypix
