@@ -1,0 +1,15 @@
+version: '3'
+services:
+  pixiv:
+    image: 'kokutou/mypix:latest'
+    environment:
+      - globalcookie=                 #guest，pixiv的cookie
+      - mycookie=                     #leesin，pixiv的cookie
+      - password=                     #账号名是leesin,密码自设，默认password
+      - guestpassword=                #账号名是guest，密码自设，默认password
+      - qqnum=xxx                     #做着玩的,随便填充
+      - pushurl=xxx                   #做着玩的,随便填充
+    ports:
+        - '18080:8084'                #本地：内部
+    pull_policy: always
+    container_name: mypix
