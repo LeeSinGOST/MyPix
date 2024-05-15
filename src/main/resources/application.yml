@@ -26,7 +26,7 @@ custom:
     qqnum: ${qqnum}
     pushurl: ${pushurl}
   users:
-    leesin:
+    admin:
       password: ${password:password}
       cookie: ${mycookie}
     guest:
